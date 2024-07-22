@@ -11,6 +11,11 @@ public class CharacterAI : MonoBehaviour
     private List<Action> currentPlan;
     private int currentActionIndex;
 
+    /// <summary>
+    /// Debug用
+    /// </summary>
+    [SerializeField] Action currentAction;
+
     private void Awake()
     {
         if (states != null)
@@ -47,6 +52,7 @@ public class CharacterAI : MonoBehaviour
 
         if (currentPlan != null && currentPlan.Count > 0)
         {
+            currentAction = currentPlan[currentActionIndex];
             // 計画を実行する
             ExecutePlan();
         }
@@ -84,5 +90,20 @@ public class CharacterAI : MonoBehaviour
             currentPlan = planner.Plan(state, goalState);
             currentActionIndex = 0;
         }
+
+    }
+
+    // 状態をJSON形式で保存するメソッド
+    public string SaveStateToJson()
+    {
+        StateContainer stateContainer = new StateContainer(state);
+        return JsonUtility.ToJson(stateContainer);
+    }
+
+    // JSON形式から状態を読み込むメソッド
+    public void LoadStateFromJson(string json)
+    {
+        StateContainer stateContainer = JsonUtility.FromJson<StateContainer>(json);
+        state = stateContainer.ToDictionary();
     }
 }

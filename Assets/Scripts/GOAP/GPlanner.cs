@@ -48,9 +48,9 @@ public class GPlanner
                     }
                 }
             }
-            if(count > 100)
+            if(count > 500)
             {
-                Debug.LogAssertion("detect infinity loop");
+                Debug.LogAssertion("detect 500 loop");
                 break;
             }
 
