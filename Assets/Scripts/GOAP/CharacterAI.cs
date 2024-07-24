@@ -7,9 +7,10 @@ public class CharacterAI : MonoBehaviour
     [SerializeField] Condition[] goalStates;
     public Dictionary<string, float> state { get; private set; } = new Dictionary<string, float>();
     public Dictionary<string, float> goalState { get; private set; } = new Dictionary<string, float>();
-    private GPlanner planner = new GPlanner();
+    private GPlanner planner;
     private List<Action> currentPlan;
     private int currentActionIndex;
+    [SerializeField] int maxcount;
 
     /// <summary>
     /// Debug—p
@@ -18,6 +19,7 @@ public class CharacterAI : MonoBehaviour
 
     private void Awake()
     {
+        planner = new GPlanner(maxcount);
         if (states != null)
         {
             foreach (State w in states)

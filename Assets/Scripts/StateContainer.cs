@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class StateContainer
 {
-    public List<StateEntry> entries = new List<StateEntry>();
+    public List<StateEntry> entries = new List<StateEntry>(); 
 
     public StateContainer(Dictionary<string, float> state)
     {

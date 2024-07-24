@@ -1,1 +1,1 @@
-{"entries":[{"key":"health","value":100.0},{"key":"food","value":180.0},{"key":"water","value":10.0},{"key":"moveSpeed","value":3.0},{"key":"foundBerryBush","value":0.0},{"key":"atBerryBush","value":0.0},{"key":"hasBerries","value":0.0}]}
+{"entries":[{"key":"health","value":100.0},{"key":"food","value":100.0},{"key":"water","value":10.0},{"key":"moveSpeed","value":3.0},{"key":"isHunger","value":1.0},{"key":"foundBerryBush","value":0.0},{"key":"atBerryBush","value":0.0},{"key":"hasBerries","value":0.0}]}

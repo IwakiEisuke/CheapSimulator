@@ -54,11 +54,11 @@ public abstract class Action : MonoBehaviour
     public abstract void Reset();
     public abstract bool Perform(GameObject agent);
 
-    public virtual bool ArePreConditionsMet(Dictionary<string, float> state)
+    public bool ArePreConditionsMet(Dictionary<string, float> state)
     {
         foreach (var precondition in PreConditions)
         {
-            if (!state.ContainsKey(precondition.Key))
+            if (!state.ContainsKey(precondition.Key)) //このActionに到達するまでに前提条件のstateを設定されていなければ失敗
             {
                 return false;
             }

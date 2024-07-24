@@ -1,10 +1,15 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GPlanner
 {
     public List<Action> Actions;
+    public int maxcount;
+
+    public GPlanner(int maxcount)
+    {
+        this.maxcount = maxcount;
+    }
 
     public List<Action> Plan(Dictionary<string, float> initialState, Dictionary<string, float> goalState)
     {
@@ -34,7 +39,7 @@ public class GPlanner
                     // コストが0の場合はスキップ
                     if (action.Cost <= 0)
                     {
-                        Debug.LogAssertion("コストが0以下のActionは使用できません");
+                        Debug.LogAssertion("コストが0以下のActionは実行できません");
                         continue;
                     }
 
@@ -48,12 +53,12 @@ public class GPlanner
                     }
                 }
             }
-            if(count > 500)
+
+            if(count > maxcount)
             {
-                Debug.LogAssertion("detect 500 loop");
+                Debug.LogAssertion($"プラン作成時のループ回数が{maxcount}回を超えました");
                 break;
             }
-
             count++;
         }
         return null;
@@ -66,7 +71,6 @@ public class GPlanner
             if (!state.ContainsKey(goal.Key) || state[goal.Key] < goal.Value)
             {
                 return false;
-
             }
         }
         return true;
@@ -83,47 +87,3 @@ public class GPlanner
         return plan;
     }
 }
-
-
-public class Node
-{
-    public Node Parent;
-    public float Cost;
-    public Dictionary<string, float> State;
-    public Action Action;
-
-    public Node(Node parent, float cost, Dictionary<string, float> state, Action action)
-    {
-        Parent = parent;
-        Cost = cost;
-        State = state;
-        Action = action;
-    }
-
-    public override bool Equals(object obj)
-    {
-        if (obj is Node node)
-        {
-            foreach (var key in State.Keys)
-            {
-                if (!node.State.ContainsKey(key) || node.State[key] != State[key])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public override int GetHashCode()
-    {
-        int hash = 13;
-        foreach (var key in State.Keys)
-        {
-            hash = (hash * 7) + State[key].GetHashCode();
-        }
-        return hash;
-    }
-}
-
