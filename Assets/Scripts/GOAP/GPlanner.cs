@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GPlanner
@@ -25,7 +26,7 @@ public class GPlanner
             var currentNode = openList[0];
             openList.RemoveAt(0);
 
-            if (IsGoalAchieved(currentNode.State, goalState))
+            if (IsGoalPartiallyAchieved(currentNode.State, goalState))
             {
                 return BuildPlan(currentNode);
             }
@@ -44,17 +45,17 @@ public class GPlanner
                     }
 
                     var newState = action.ApplyPreEffects(currentNode.State);
-                    newState = action.ApplyPostEffects(currentNode.State);
+                    newState = action.ApplyPostEffects(newState);
                     var newNode = new Node(currentNode, currentNode.Cost + action.Cost, newState, action);
 
-                    if (!closedList.Contains(newNode) && !openList.Exists(n => n.Equals(newNode)))
+                    if (!closedList.Contains(newNode) && !openList.Any(n => n.Equals(newNode)))
                     {
                         openList.Add(newNode);
                     }
                 }
             }
 
-            if(count > maxcount)
+            if (count > maxcount)
             {
                 Debug.LogAssertion($"ƒvƒ‰ƒ“ì¬‚Ìƒ‹[ƒv‰ñ”‚ª{maxcount}‰ñ‚ğ’´‚¦‚Ü‚µ‚½");
                 break;
@@ -64,16 +65,17 @@ public class GPlanner
         return null;
     }
 
-    private bool IsGoalAchieved(Dictionary<string, float> state, Dictionary<string, float> goalState)
+    private bool IsGoalPartiallyAchieved(Dictionary<string, float> state, Dictionary<string, float> goalState)
     {
+        bool partiallyAchieved = false;
         foreach (var goal in goalState)
         {
-            if (!state.ContainsKey(goal.Key) || state[goal.Key] < goal.Value)
+            if (state.ContainsKey(goal.Key) && state[goal.Key] >= goal.Value)
             {
-                return false;
+                partiallyAchieved = true;
             }
         }
-        return true;
+        return partiallyAchieved;
     }
 
     private List<Action> BuildPlan(Node node)

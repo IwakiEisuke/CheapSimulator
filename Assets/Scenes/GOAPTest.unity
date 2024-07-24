@@ -935,7 +935,10 @@ MonoBehaviour:
   - Key: food
     Value: 100
     ConditionType: 4
-  maxcount: 100
+  - Key: water
+    Value: 100
+    ConditionType: 4
+  maxcount: 250
   currentAction: {fileID: 0}
 --- !u!4 &1518105530
 Transform:

@@ -92,7 +92,6 @@ public class CharacterAI : MonoBehaviour
             currentPlan = planner.Plan(state, goalState);
             currentActionIndex = 0;
         }
-
     }
 
     // 状態をJSON形式で保存するメソッド

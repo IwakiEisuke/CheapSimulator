@@ -12,7 +12,7 @@ public enum ConditionType
 
 public enum EffectType
 {
-    Overwrite,
+    Set,
     Add,
     Multiply,
     Divide
@@ -105,7 +105,7 @@ public abstract class Action : MonoBehaviour
             {
                 switch (effect.EffectType)
                 {
-                    case EffectType.Overwrite:
+                    case EffectType.Set:
                         newState[effect.Key] = effect.Value;
                         break;
                     case EffectType.Add:
